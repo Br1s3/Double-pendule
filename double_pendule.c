@@ -140,7 +140,6 @@ double get_energie_pendule(Var_Dp Dp)
 
 int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, double (*f)(double, double, double), double (*g)(double, double, double), int (*ODESolver)(const double, double, double *, double *, double (*)(double, double, double)))
 {
-    // sauvegarde_etat_equadiff;
     double dt = stepSize;
     long pas = 0;
     Var_Dp DpB = {0};
@@ -159,7 +158,7 @@ int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, doubl
 	double t = startTime;
 	if (!firstTime) {
 	    restaure_state(Dp, DpB); // restaurer le Dp comme avant
-	    // sauvegarde de toute les donner du Dp
+	    // sauvegarde de toutes les données du Dp
 	    dt /= 5;
 	    if (dt < 1e-10) {
 		fprintf(stderr, "pas de temps trop petit\n");
@@ -178,7 +177,7 @@ int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, doubl
 	    if (ODESolver(h, t, &Dp->theta_1, &Dp->phi_1, f) < 0) return -1; // New step
 	    if (ODESolver(h, t, &Dp->theta_2, &Dp->phi_2, g) < 0) return -1; // New step
 
-	    Dp->t = t; // sauvegarde de toute les donner du Dp
+	    Dp->t = t; // sauvegarde de toutes les données du Dp
 
 	    t = t + h;
 	    if (pas > (stepSize/dt + 2)){ 
@@ -246,7 +245,6 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Color cl, Var_Dp VDp)
     for (int j = 0; j < i-1; j++){
 	DrawLine(Dp->buf_traine[j].x + WIDTH/2, HEIGHT/2 - Dp->buf_traine[j].y, Dp->buf_traine[j+1].x + WIDTH/2, HEIGHT/2 - Dp->buf_traine[j+1].y, cl);
     }
-
 }
 
 int main()
@@ -310,7 +308,7 @@ int main()
 	if (methode_RK_adaptative_pendule(dt1, epsilon1, &Var_Dp1, equ_psi_1_var1, equ_psi_2_var1, methode_RK4) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
-	// Méthode explicite classique
+	// Méthode explicite classique de calcul des 2 équations
 	if (methode_DOPRI45(dt2, &t, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 	if (methode_DOPRI45(dt2, &t, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
