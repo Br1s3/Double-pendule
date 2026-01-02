@@ -20,6 +20,7 @@ RAY_FLAGS += 	\
 
 
 all: simple_pendule double_pendule double_pendule_console double_pendule_video
+
 $(EXE_DIR):
 	$(MD) -p $(EXE_DIR)
 
@@ -34,6 +35,7 @@ double_pendule_console: double_pendule_console.c $(EXE_DIR)
 
 double_pendule_video: double_pendule_video.c $(EXE_DIR)
 	$(CC) double_pendule_video.c resolveur_EDO.c graphique.c PPMfile.c -o $(EXE_DIR)/double_pendule_video $(FLAGS) -lm
+
 
 $(PICTURE_DIR):
 	$(MD) -p $(PICTURE_DIR)

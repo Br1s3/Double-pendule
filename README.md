@@ -7,7 +7,7 @@ Programmes permettant de résoudre numériquement l'équation du double pendule.
 Le programme embarque plusieurs solveur d'EDO comme: RK4, Verlet, Euler et DOPRI45.
 La visualisation de cette simulation se fait de plusieurs manière selon les programmes.
 Le programme double\_pendule utilise la librairie graphique Raylib.
-Le programme double\_pendule\_
+Le programme double\_pendule\_console et double\_pendule\_console\_video n'utilise pas de librairie externe.
 
 ## Pour commencer
 
@@ -15,10 +15,12 @@ Le programme double\_pendule\_
 $ make all
 $ ./project/double_pendule
 $ ./project/double_pendule_console
+$ ./project/double_pendule_video
 $ make create_picture
 $ create_video
 $ play_video
 ```
+
 ## Exemple en image du double pendule avec Raylib
 
 [![Double-pendule](./picture/Double-pendule.png)](/picture)
@@ -27,10 +29,9 @@ $ play_video
 
 [![Double-pendule-console](./picture/Double-pendule-console.png)](/picture)
 
-<!-- TODO: -->
-<!-- ## Exemple en image du double pendule en mode vidéo -->
+## Exemple en vidéo du programme de Double\_pendule\_video
 
-<!-- [![Double-pendule](./Double-pendule.png)](/picture) -->
+[![Double-pendule-video](./picture/Double-pendule.mp4)](/picture)
 
 
 # Infos interessantes
