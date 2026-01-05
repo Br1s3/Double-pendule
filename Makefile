@@ -1,6 +1,30 @@
-MD = mkdir -p
-RM = rm -rf
 CC = gcc
+
+
+ifeq ($(OS), Windows_NT)
+	PLATFORM := Windows
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S), Linux)
+		PLATFORM := Linux
+	else ifeq ($(UNAME_S), Darwin)
+		PLATFORM := macos
+	else
+		PLATFORM := unknown
+	endif
+endif
+
+
+ifeq ($(PLATFORM), Windows)
+	MD = mkdir
+	RM = del
+	EXEC = .\main.exe
+else ifeq ($(PLATFORM), Linux)
+	MD = mkdir -p
+	RM = rm -rf
+	EXEC   = main
+endif
+
 
 BUILD_DIR 	:= project
 PICTURE_DIR 	:= stock
@@ -22,14 +46,12 @@ RAY_FLAGS += 	\
 -lX11 		\
 
 
-<<<<<<< HEAD
-all: $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video
-	@echo BUILDING: $?
-=======
->>>>>>> 84ad484bb12c0e6ba06931869846593acc169db0
 
 .PHONY: all clean_all help create_picture create_video play_video create_gif
 
+
+
+all: $(BUILD_DIR) $(PICTURE_DIR) $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video $(BUILD_DIR)/double_pendule
 
 
 $(BUILD_DIR):
@@ -37,9 +59,6 @@ $(BUILD_DIR):
 
 $(PICTURE_DIR):
 	$(MD) $(PICTURE_DIR)
-
-
-all: $(BUILD_DIR) $(PICTURE_DIR) $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video $(BUILD_DIR)/double_pendule
 
 # $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video: | $(BUILD_DIR)
 # $(BUILD_DIR)/double_pendule_video: | $(PICTURE_DIR)
