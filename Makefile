@@ -92,6 +92,7 @@ $(PICTURE_DIR)/Double_pendule_000.ppm: $(BUILD_DIR)/double_pendule_video
 clean_all:
 	$(RM) $(PICTURE_DIR)
 	$(RM) $(BUILD_DIR)
+	$(RM) *.csv
 
 help:
 	@echo "The following are some of the valid targets for this Makefile:"

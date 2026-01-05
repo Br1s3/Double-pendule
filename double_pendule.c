@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include "resolveur_EDO.h"
 
-#define SAUVEGARDE_POSITION
+#define sauvegarde_position
+#define FILEPATH "test.csv"
 
 #define HEIGHT 600
 #define WIDTH 800
 #define IPS 600
 
 #define BUFFER_LENGTH_TRAINE 500
-#define FILEPATH "test.csv"
 #define carre(x) ((x)*(x))
 #define UNUSED(x) (void)(x)
 #ifndef ABS
@@ -253,12 +253,32 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Color cl, Var_Dp VDp)
 # define SAUVEGARDE
 #endif
 
-int main()
+int main(int argc, char *argv[])
 {
-#ifdef SAUVEGARDE
-    FILE *fichier = fichier = fopen(FILEPATH, "w");
-    if(!fichier) fprintf(stderr, "Erreur d'écriture sur fichier\n");
-#endif
+    argc--;argv++;
+    int sauvegarde = 0;
+    FILE *fichier = NULL;
+    if (argc == 1) {
+	switch (atoi(argv[0])) {
+	    case 0:
+		fprintf(stderr, "INFO: pas de sauvegarde\n");
+		break;
+	    case 1: // sauvegarde la energie
+		sauvegarde = 1;
+		fichier = fopen("sauvegarde_energie.csv", "w");
+		fprintf(stderr, "ERROR: écriture du fichier de sauvegarde impossible\n");
+		break;
+	    case 2: // sauvegarde la position
+		sauvegarde = 2;
+		fichier = fopen("sauvegarde_position.csv", "w");
+		fprintf(stderr, "ERROR: écriture du fichier de sauvegarde impossible\n");
+		break;
+	    default:
+		fprintf(stderr, "WARNING: mauvais argument = PAS DE SAUVEGARDE\n");
+		break;
+	}
+    }
+
     Var_Dp Var_Dp1 = {.l1       = 1.0f,
     		      .l2       = 1.0f,
     		      .m1       = 1.f,
@@ -320,14 +340,15 @@ int main()
 	if (methode_DOPRI45(dt2, &t, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
-#if defined(SAUVEGARDE_ENERGIE)
-	float E_TOT_1 = get_energie_pendule(Var_Dp1);
-	float E_TOT_2 = get_energie_pendule(Var_Dp2);
-	fprintf(fichier, "%lf,%.3f,%.3f\n", t, E_TOT_1, E_TOT_2);
-#elif defined(SAUVEGARDE_POSITION)
-        // fprintf(fichier, "%lf,%.3f,%.3f,%.3f,%.3f\n", t, Var_Dp1.theta_1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2);
-        fprintf(fichier, "%.3f,%.3f\n", sin(Var_Dp1.theta_2) + sin(Var_Dp1.theta_1), -cos(Var_Dp1.theta_2) - cos(Var_Dp1.theta_1));
-#endif
+	if (sauvegarde == 1) {
+	    float E_TOT_1 = get_energie_pendule(Var_Dp1);
+	    float E_TOT_2 = get_energie_pendule(Var_Dp2);
+	    fprintf(fichier, "%lf,%.3f,%.3f\n", t, E_TOT_1, E_TOT_2);
+	} else if (sauvegarde == 2) {
+            // fprintf(fichier, "%lf,%.3f,%.3f,%.3f,%.3f\n", t, Var_Dp1.theta_1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2);
+            fprintf(fichier, "%.3f,%.3f\n", sin(Var_Dp1.theta_2) + sin(Var_Dp1.theta_1), -cos(Var_Dp1.theta_2) - cos(Var_Dp1.theta_1));
+	}
+	
 	if (i < BUFFER_LENGTH_TRAINE) i++;
 	
 	tracage_double_pendule(i, &Dp1, BLUE, Var_Dp1);
@@ -339,9 +360,8 @@ int main()
 	DrawFPS(20, 20);
 	EndDrawing();
     }
-#ifdef SAUVEGARDE
-    fclose(fichier);
-#endif
+    if (sauvegarde > 0) fclose(fichier);
+
     CloseWindow();
     return 0;
 }
