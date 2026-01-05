@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "resolveur_EDO.h"
 
+#define SAUVEGARDE_POSITION
+
 #define HEIGHT 600
 #define WIDTH 800
 #define IPS 600
@@ -247,9 +249,13 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Color cl, Var_Dp VDp)
     }
 }
 
+#if defined(SAUVEGARDE_POSITION) || defined(SAUVEGARDE_ENERGIE)
+# define SAUVEGARDE
+#endif
+
 int main()
 {
-#ifdef SAUVEGARDE_ENERGIE
+#ifdef SAUVEGARDE
     FILE *fichier = fichier = fopen(FILEPATH, "w");
     if(!fichier) fprintf(stderr, "Erreur d'écriture sur fichier\n");
 #endif
@@ -314,10 +320,13 @@ int main()
 	if (methode_DOPRI45(dt2, &t, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
-#ifdef SAUVEGARDE_ENERGIE
+#if defined(SAUVEGARDE_ENERGIE)
 	float E_TOT_1 = get_energie_pendule(Var_Dp1);
 	float E_TOT_2 = get_energie_pendule(Var_Dp2);
 	fprintf(fichier, "%lf,%.3f,%.3f\n", t, E_TOT_1, E_TOT_2);
+#elif defined(SAUVEGARDE_POSITION)
+        // fprintf(fichier, "%lf,%.3f,%.3f,%.3f,%.3f\n", t, Var_Dp1.theta_1, Var_Dp1.theta_2, Var_Dp1.phi_1, Var_Dp1.phi_2);
+        fprintf(fichier, "%.3f,%.3f\n", sin(Var_Dp1.theta_2) + sin(Var_Dp1.theta_1), -cos(Var_Dp1.theta_2) - cos(Var_Dp1.theta_1));
 #endif
 	if (i < BUFFER_LENGTH_TRAINE) i++;
 	
@@ -330,7 +339,7 @@ int main()
 	DrawFPS(20, 20);
 	EndDrawing();
     }
-#ifdef SAUVEGARDE_ENERGIE
+#ifdef SAUVEGARDE
     fclose(fichier);
 #endif
     CloseWindow();

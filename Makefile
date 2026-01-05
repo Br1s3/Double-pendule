@@ -24,6 +24,7 @@ RAY_FLAGS += 	\
 .PHONY: test all clean_all help create_picture create_video play_video create_gif
 
 all: $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video
+	@echo BUILDING: $?
 
 $(BUILD_DIR)/simple_pendule: simple_pendule.c
 	$(MD) -p $(BUILD_DIR)

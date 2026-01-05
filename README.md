@@ -79,3 +79,6 @@ https://en.wikipedia.org/wiki/Stiff_equation
 
 ## Programme solveur explicite DOP853
 https://www.unige.ch/~hairer/software.html
+
+## Info pour Makefile
+https://makefiletutorial.com/
