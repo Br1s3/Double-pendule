@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "EDOsolver.h"
+#include "ODEsolver.h"
 #include "graph.h"
-#include "PPMfile.h"
+#include "Imagefile.h"
 
 #define IPS 60
 
@@ -270,7 +270,7 @@ int main()
     char filepath_image[IPS*10][40];
 
     for (int i = 0; i < IPS*10; i++)
-	sprintf(filepath_image[i], "stock/Double_pendule_%03d.ppm", i);
+	sprintf(filepath_image[i], "stock/Double_pendule_%03d.bmp", i);
 
     for (int i = 0; i < IPS*10; i++) {
 
@@ -279,7 +279,7 @@ int main()
 	
 	tracage_double_pendule(i, &Dp1, Var_Dp1, color);
 
-	CreateImage(filepath_image[i], color, WIDTH, HEIGHT);
+	CreateImageBMP(filepath_image[i], color, WIDTH, HEIGHT);
     }
     color_free(color, WIDTH, HEIGHT);
     return 0;

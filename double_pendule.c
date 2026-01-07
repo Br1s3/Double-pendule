@@ -2,11 +2,11 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "EDOsolver.h"
+#include "ODEsolver.h"
 
 #define HEIGHT 600
 #define WIDTH 800
-#define IPS 400
+#define IPS 60
 
 #define BUFFER_LENGTH_TRAINE 500
 #define carre(x) ((x)*(x))
@@ -14,6 +14,13 @@
 #ifndef ABS
 # define ABS(x) ((x < 0) ? -(x) : (x))
 #endif
+#define TEST_FILE(x, f)				\
+do {						\
+    if (x) {					\
+	fprintf(stderr, "ERROR: Failed to write file: %s\n", f);	\
+	exit(1);				\
+    }						\
+} while (0)					\
 
 
 double equ_psi_1(double th1, double th2, double ph1, double ph2, double g, double l1, double l2, double m1, double m2)
@@ -251,26 +258,34 @@ int main(int argc, char *argv[])
 {
     argc--;argv++;
     int save = 0;
-    FILE *fichier = NULL;
-    if (argc == 1) {
-	switch (atoi(argv[0])) {
-	    case 0:
-		fprintf(stderr, "INFO: No saves\n");
-		break;
-	    case 1: // save la energie
-		save = 1;
-		fichier = fopen("save_energie.csv", "w");
-		fprintf(stderr, "ERROR: Failed to write file\n");
-		break;
-	    case 2: // save la position
-		save = 2;
-		fichier = fopen("save_position.csv", "w");
-		fprintf(stderr, "ERROR: Failed to write file\n");
-		break;
-	    default:
-		fprintf(stderr, "WARNING: Wrong argument = NO SAVES\n");
-		break;
-	}
+    int res = -1;
+    FILE *file = NULL;
+    
+    if (argc == 1) res = atoi(argv[0]);
+    switch (res) {
+        case 0:
+	    fprintf(stderr, "WARNING: Wrong argument = NO SAVES\n");
+	    break;
+	case 1: // save file energy
+	    save = 1;
+	    fprintf(stderr, "INFO: Save the total energy of the double pendulum\n");
+	    break;
+	case 2: // save file position
+	    save = 2;
+	    fprintf(stderr, "INFO: Save the position of the double pendulum\n");
+	    break;
+	default:
+	    fprintf(stderr, "INFO: No saves\n");
+	    break;
+    }
+
+    if (save == 1) {
+	file = fopen("save_energie.csv", "w");
+	TEST_FILE(file == NULL, "save_energie.csv");
+    }
+    else if (save == 2) {
+	file = fopen("save_position.csv", "w");
+	TEST_FILE(file == NULL, "save_position.csv");
     }
 
     Var_Dp Var_Dp1 = {.l1       = 1.0f,
@@ -307,8 +322,9 @@ int main(int argc, char *argv[])
     double dt = 1.f/(IPS);
 
     double epsilon1 = 0.01f;
-    double epsilon2 = 0.01f;
-    double t = 0;
+    double epsilon2 = 0.0000000001f;
+    double t1 = 0;
+    double t2 = 0;
     
     double_pendulum Dp1;
     double_pendulum Dp2;
@@ -327,17 +343,18 @@ int main(int argc, char *argv[])
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
 	// Classic explicit method to compute these 2 equations
-	if (methode_DOPRI45(dt, &t, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
+	if (methode_DOPRI45(dt, t2, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
-	if (methode_DOPRI45(dt, &t, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
+	if (methode_DOPRI45(dt, t2, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
 	if (save == 1) {
 	    float E_TOT_1 = get_pendulum_energy(Var_Dp1);
 	    float E_TOT_2 = get_pendulum_energy(Var_Dp2);
-	    fprintf(fichier, "%lf,%.3f,%.3f\n", t, E_TOT_1, E_TOT_2);
-	} else if (save == 2) {
-            fprintf(fichier, "%.3f,%.3f\n", sin(Var_Dp1.theta_2) + sin(Var_Dp1.theta_1), -cos(Var_Dp1.theta_2) - cos(Var_Dp1.theta_1));
+	    fprintf(file, "%lf,%.3f,%.3f\n", t1, E_TOT_1, E_TOT_2);
+	}
+	else if (save == 2) {
+            fprintf(file, "%.3f,%.3f\n", sin(Var_Dp1.theta_2) + sin(Var_Dp1.theta_1), -cos(Var_Dp1.theta_2) - cos(Var_Dp1.theta_1));
 	}
 	
 	if (i < BUFFER_LENGTH_TRAINE) i++;
@@ -345,13 +362,15 @@ int main(int argc, char *argv[])
 	double_pendulum_tracing(i, &Dp1, BLUE, Var_Dp1);
 	double_pendulum_tracing(i, &Dp2, GREEN, Var_Dp2);
 	
-	snprintf(tab, 15, "t = %.2lf", t);
-	t += dt;
+	snprintf(tab, 15, "t = %.2lf", t1);
+	t1 += dt;
+	t2 = t1;
+
 	DrawText(tab, 20, 40, 20, GREEN);
 	DrawFPS(20, 20);
 	EndDrawing();
     }
-    if (save > 0) fclose(fichier);
+    if (save > 0) fclose(file);
 
     CloseWindow();
     return 0;

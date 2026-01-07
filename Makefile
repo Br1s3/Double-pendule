@@ -27,9 +27,11 @@ endif
 
 
 BUILD_DIR 	:= project
+OBJ_DIR 	:= lib
 PICTURE_DIR 	:= stock
 
-PICTURE_DB_PENDULE := Double_pendule_%03d.ppm
+PICTURE_DB_PENDULE := Double_pendule_%03d.bmp
+PICTURE_DB_SAMPLE := Double_pendule_000.bmp
 VIDEO_DB_PENDULE := Double_pendule.mp4
 
 FLAGS += 		\
@@ -67,13 +69,13 @@ $(BUILD_DIR)/simple_pendule: simple_pendule.c | $(BUILD_DIR)
 	$(CC) simple_pendule.c -o $(BUILD_DIR)/simple_pendule $(FLAGS) $(RAY_FLAGS)
 
 $(BUILD_DIR)/double_pendule: double_pendule.c | $(BUILD_DIR)
-	$(CC) double_pendule.c EDOsolver.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
+	$(CC) double_pendule.c ODEsolver.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
 
 $(BUILD_DIR)/double_pendule_console: double_pendule_console.c | $(BUILD_DIR)
-	$(CC) double_pendule_console.c EDOsolver.c graph.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
+	$(CC) double_pendule_console.c ODEsolver.c graph.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
 
 $(BUILD_DIR)/double_pendule_video: double_pendule_video.c | $(BUILD_DIR) $(PICTURE_DIR)
-	$(CC) double_pendule_video.c EDOsolver.c graph.c PPMfile.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
+	$(CC) double_pendule_video.c ODEsolver.c graph.c Imagefile.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
 
 
 
@@ -85,10 +87,10 @@ create_gif: $(PICTURE_DIR)/Double_pendule.mp4
 
 create_video: $(PICTURE_DIR)/Double_pendule.mp4
 
-$(PICTURE_DIR)/Double_pendule.mp4: $(PICTURE_DIR)/Double_pendule_000.ppm
-	ffmpeg -i $(PICTURE_DIR)/Double_pendule_%03d.ppm -r 60 $(PICTURE_DIR)/Double_pendule.mp4
+$(PICTURE_DIR)/Double_pendule.mp4: $(PICTURE_DIR)/$(PICTURE_DB_SAMPLE)
+	ffmpeg -i $(PICTURE_DIR)/$(PICTURE_DB_PENDULE) -r 60 $(PICTURE_DIR)/Double_pendule.mp4
 
-$(PICTURE_DIR)/Double_pendule_000.ppm: $(BUILD_DIR)/double_pendule_video
+$(PICTURE_DIR)/$(PICTURE_DB_SAMPLE): $(BUILD_DIR)/double_pendule_video
 	./$(BUILD_DIR)/double_pendule_video
 
 clean_all:

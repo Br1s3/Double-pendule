@@ -1,5 +1,5 @@
 #include <math.h>
-#include "EDOsolver.h"
+#include "ODEsolver.h"
 
 
 int methode_euler_explicite(const double dt, double t, double *x, double *v, double (*f)(double, double, double))
@@ -32,7 +32,7 @@ int methode_RK4(const double h, double t, double *x, double *v, double (*f)(doub
     	double vn;
     	double an;
     } P[4] = {0};
-    
+
     P[0].tn = t;
     P[0].xn = (*x);
     P[0].vn = (*v);
@@ -87,7 +87,7 @@ int methode_RK(const double h, double t, double *x, double *v, double (*f)(doubl
 	double vn;
 	double an;
     } P[q] = {0};
-    
+
     for (int i = 0; i < q; i++) {
 	double vtemp = 0;
 	double atemp = 0;
@@ -115,7 +115,7 @@ int methode_RK(const double h, double t, double *x, double *v, double (*f)(doubl
     if (isnan(atemp)) return -1;
     (*v) = (*v) + h*atemp;
     ///
-    
+
 #ifdef q
 # undef q
 #endif
@@ -136,13 +136,13 @@ int methode_Verlet(const double h, double t, double *x, double *v, double (*f)(d
 
     P.xn = (*x) + (*v) * h + 0.5f*h*h*a;
     if (isnan(P.xn)) return -1;
-    
+
     P.an = (*f)(t, P.xn, *v);
     if (isnan(P.an)) return -1;
-    
+
     P.vn = (*v) + 0.5f * h*(a + P.an);
     if (isnan(P.vn)) return -1;
-    
+
     (*x) = P.xn;
     (*v) = P.vn;
 
@@ -156,8 +156,11 @@ typedef struct
     double tn;
     double xn;
     double vn;
-    double an;    
+    double an;
 } Derive_temp;
+
+
+
 
 int methode_RK_row(const int q, Derive_temp P[q], const double A[][q], const double *B, const double *C, const double h, double t, double *x, double *v, double (*f)(double, double, double))
 {
@@ -167,7 +170,7 @@ int methode_RK_row(const int q, Derive_temp P[q], const double A[][q], const dou
 	P[i].vn = 0;
 	P[i].an = 0;
     }
-    
+
     for (int i = 0; i < q; i++) {
 	double vtemp = 0;
 	double atemp = 0;
@@ -178,26 +181,28 @@ int methode_RK_row(const int q, Derive_temp P[q], const double A[][q], const dou
 	}
 	P[i].tn = t + C[i]*h;
 	P[i].xn = (*x) + h*vtemp;
-	P[i].vn = (*v) + h*atemp;	
+	P[i].vn = (*v) + h*atemp;
 	P[i].an = (*f)(P[i].tn, P[i].xn, P[i].vn);
     }
-    
+
     double vtemp = 0;
     double atemp = 0;
     for(int i = 0; i < q; i++) {
     	vtemp += B[i]*P[i].vn;
     	atemp += B[i]*P[i].an;
     }
-    
+
     if (isnan(vtemp)) return -1;
     (*x) = (*x) + h*vtemp;
     if (isnan(atemp)) return -1;
     (*v) = (*v) + h*atemp;
 
-    return 0;    
+    return 0;
 }
 
-int methode_DOPRI45(double stepSize, double *Time, double err, double *x, double *v, double (*f)(double, double, double))
+// Change my mind by not modifying the *Time variable.
+// But let in comment the way to go back
+int methode_DOPRI45(double stepSize, double Time, double err, double *x, double *v, double (*f)(double, double, double))
 {
 #ifndef q
 # define q 7
@@ -229,12 +234,13 @@ int methode_DOPRI45(double stepSize, double *Time, double err, double *x, double
     double bx = (*x);
     double bv = (*v);
     double TE = 0;
-    double startTime = (*Time);
+    double startTime = Time;
+    // double startTime = (*Time);
     int firstTime = 1;
     const double ErreurDebut = err;
     double DernierDifErreur = 10e10;
     double valeur = 10e10;
-    
+
 
     if (dt < 1e-15) {
 	return -1;
@@ -243,24 +249,24 @@ int methode_DOPRI45(double stepSize, double *Time, double err, double *x, double
     {
 	double t = startTime;
 	if (!firstTime) {
-	    (*Time) = startTime;
+	    // (*Time) = startTime;
 	    (*x) = bx;
 	    (*v) = bv;
 	    dt = 0.1f * (dt) * pow(err/TE, 1.f/q);
 	    if (dt < 1e-10) return -1;
 	}
 	pas = 0;
-		
+
 	while (t < (startTime + stepSize)) {
 	    double h = dt;
 	    if ((t + h) > (startTime + stepSize - 1e-10))
 		h = startTime + stepSize - t;
 	    pas++;
 
-	    if (methode_RK_row(q, P, A, B5, C, h, t, x, v, f) < 0) return -1;	    
-	    (*Time) = t;	    
+	    if (methode_RK_row(q, P, A, B5, C, h, t, x, v, f) < 0) return -1;
+	    // (*Time) = t;
 	    t = t + h;
-	    
+
 	    if (pas > (stepSize/dt + 2)) return -1;
 	}
 
@@ -275,7 +281,7 @@ int methode_DOPRI45(double stepSize, double *Time, double err, double *x, double
     	    TE += (B5[i] - B4[i])*P[i].xn;
     	}
     	TE = ABS(TE);
-	
+
 	const double ErreurFinale = TE;
 	if (isnan(ErreurFinale)) return -1;
 	const double difErreur = ABS(ErreurDebut - ErreurFinale);
