@@ -1,12 +1,13 @@
 #ifndef IMAGEFILE_INCLUED_H
 #define IMAGEFILE_INCLUED_H
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 
-uint8_t ***color_alloc(int w, int h);
-int color_free(uint8_t ***tab, int w, int h);
+uint8_t ***b24_color_alloc(int w, int h);
+int b24_color_free(uint8_t ***tab, int w, int h);
+
+uint8_t ***b8_color_alloc(int w, int h);
+int b8_color_free(uint8_t ***tab, int w, int h);
 
 typedef struct {
    char ID[2];
@@ -32,10 +33,11 @@ typedef struct {
    uint32_t colorImportant;
 } DIBHeader;
 
-void CreateImagePPM(const char *nFile, uint8_t ***color, uint32_t Width, uint32_t Height);
-void CreateImageBMP(const char *nFile, uint8_t ***color, uint32_t Width, uint32_t Height);
+void CreateImagePPM24b(const char *nFile, uint8_t ***color, uint32_t Width, uint32_t Height);
+void CreateImagePPM8b(const char *nFile, uint8_t ***color, uint32_t Width, uint32_t Height);
 
+void CreateImageBMP24b(const char *nFile, uint8_t ***color, uint32_t Width, uint32_t Height);
 
-
+uint8_t ***ReadImage(const char *path, int *w, int *h, int *nb_color);
 
 #endif // IMAGEFILE_INCLUED_H

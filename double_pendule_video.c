@@ -266,11 +266,11 @@ int main()
     
     Double_pendule Dp1;
 
-    uint8_t ***color = color_alloc(WIDTH, HEIGHT);
+    uint8_t ***color = b24_color_alloc(WIDTH, HEIGHT);
     char filepath_image[IPS*10][40];
 
     for (int i = 0; i < IPS*10; i++)
-	sprintf(filepath_image[i], "stock/Double_pendule_%03d.bmp", i);
+	sprintf(filepath_image[i], "stock/Double_pendule_%03d.ppm", i);
 
     for (int i = 0; i < IPS*10; i++) {
 
@@ -279,8 +279,8 @@ int main()
 	
 	tracage_double_pendule(i, &Dp1, Var_Dp1, color);
 
-	CreateImageBMP(filepath_image[i], color, WIDTH, HEIGHT);
+	CreateImagePPM24b(filepath_image[i], color, WIDTH, HEIGHT);
     }
-    color_free(color, WIDTH, HEIGHT);
+    b24_color_free(color, WIDTH, HEIGHT);
     return 0;
 }

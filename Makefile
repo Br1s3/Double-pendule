@@ -30,8 +30,8 @@ BUILD_DIR 	:= project
 OBJ_DIR 	:= lib
 PICTURE_DIR 	:= stock
 
-PICTURE_DB_PENDULE := Double_pendule_%03d.bmp
-PICTURE_DB_SAMPLE := Double_pendule_000.bmp
+PICTURE_DB_PENDULE := Double_pendule_%03d.ppm
+PICTURE_DB_SAMPLE := Double_pendule_000.ppm
 VIDEO_DB_PENDULE := Double_pendule.mp4
 
 FLAGS += 		\
