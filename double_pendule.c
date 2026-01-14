@@ -337,6 +337,7 @@ int main(int argc, char *argv[])
     char tab[30] = {' '};
     snprintf(tab, 16, "ERROR: Computes");
     for (int i = 0;!WindowShouldClose();) {
+	if (IsKeyDown(KEY_SPACE)) {BeginDrawing(); EndDrawing(); continue;}
 	BeginDrawing();
 	ClearBackground(BLACK);
 
