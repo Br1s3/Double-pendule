@@ -2,8 +2,9 @@
 #define SIMULTAION_NUMERIQUE_H_INCLUED
 #include <math.h>
 
-
+#ifndef ABS
 #define ABS(x) ((x < 0) ? -(x) : (x))
+#endif
 
 int methode_euler_explicite(const double dt, double t, double *x, double *v, double (*f)(double, double, double));
 int methode_euler_simpletique(const double dt, double t, double *x, double *v, double (*f)(double, double, double));

@@ -213,12 +213,12 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, char **cl)
 	
     // trainé de la trajectoire
     for (int j = 0; j < i-1; j++){
-    	cons_ligne(cl, WIDTH, HEIGHT, Dp->buf_traine[j].x, -Dp->buf_traine[j].y, Dp->buf_traine[j+1].x, -Dp->buf_traine[j+1].y, 1, '`');
+    	cons_ligne(cl, WIDTH, HEIGHT, Dp->buf_traine[j].x, -Dp->buf_traine[j].y, Dp->buf_traine[j+1].x, -Dp->buf_traine[j+1].y, '`');
     }
 
     // Tige du pendule
-    cons_ligne(cl, WIDTH, HEIGHT, 0, 0, Dp->boule_1.x, -Dp->boule_1.y, 5, '/');
-    cons_ligne(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, Dp->boule_2.x, -Dp->boule_2.y, 5, '/');
+    cons_ligne(cl, WIDTH, HEIGHT, 0, 0, Dp->boule_1.x, -Dp->boule_1.y, '/');
+    cons_ligne(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, Dp->boule_2.x, -Dp->boule_2.y, '/');
 
     // Masse du pedule
     cons_cercle(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, VDp.m1, '*');

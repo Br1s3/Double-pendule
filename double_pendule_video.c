@@ -219,8 +219,8 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, uint8_t ***cl
     Dp->boule_2 = adaptation_coord_fenetre(Dp->boule_2);
 
     // Tige du pendule
-    draw_ligne(cl, WIDTH,  HEIGHT, 0, 0, Dp->boule_1.x, -Dp->boule_1.y, 100, 0xFFFFFF00);
-    draw_ligne(cl, WIDTH,  HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, Dp->boule_2.x, -Dp->boule_2.y, 100, 0xFFFFFF00);
+    draw_ligne(cl, WIDTH,  HEIGHT, 0, 0, Dp->boule_1.x, -Dp->boule_1.y, 0xFFFFFF00);
+    draw_ligne(cl, WIDTH,  HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, Dp->boule_2.x, -Dp->boule_2.y, 0xFFFFFF00);
 
     // Masse du pedule
     draw_cercle(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, 5.f*VDp.m1, 0xFF000000);
@@ -238,7 +238,7 @@ void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, uint8_t ***cl
 	
     // trainé de la trajectoire
     for (int j = 0; j < i-1; j++){
-    	draw_ligne(cl, WIDTH, HEIGHT, Dp->buf_traine[j].x, -Dp->buf_traine[j].y, Dp->buf_traine[j+1].x, -Dp->buf_traine[j+1].y, 5, 0x00ff00000);
+    	draw_ligne(cl, WIDTH, HEIGHT, Dp->buf_traine[j].x, -Dp->buf_traine[j].y, Dp->buf_traine[j+1].x, -Dp->buf_traine[j+1].y, 0x00ff00000);
     }
 }
 
