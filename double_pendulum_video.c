@@ -82,10 +82,10 @@ typedef struct
     Vector2 boule_1;
     Vector2 boule_2;
     Vector2 buf_traine[BUFFER_LENGTH_TRAINE];
-} Double_pendule;
+} Double_pendulum;
 
 
-void save_state(Var_Dp Dp, Var_Dp *buf)
+void state_save(Var_Dp Dp, Var_Dp *buf)
 {    
     buf->e = Dp.e;
     buf->t = Dp.t;
@@ -97,7 +97,7 @@ void save_state(Var_Dp Dp, Var_Dp *buf)
     buf->psi_2 = Dp.psi_2;
 }
 
-void restaure_state(Var_Dp *Dp, Var_Dp buf)
+void state_restore(Var_Dp *Dp, Var_Dp buf)
 {    
     Dp->e = buf.e;
     Dp->t = buf.t;
@@ -109,19 +109,7 @@ void restaure_state(Var_Dp *Dp, Var_Dp buf)
     Dp->psi_2 = buf.psi_2;
 }
 
-// int modify_state(double h, Var_Dp *Dp, int (*ODESolver)(const double, double *, double *, double (*)(double, double, double)), double (*f)(double, double, double), double (*g)(double, double, double))
-// {
-//     if (ODESolver(h, &Dp->theta_1, &Dp->phi_1, f) < 0)
-// 	return -1;
-        
-//     if (ODESolver(h, &Dp->theta_2, &Dp->phi_2, g) < 0)
-// 	return -1;
-   
-//     return 0;
-// }
-
-
-double get_energie_pendule(Var_Dp Dp)
+double get_pendulum_energy(Var_Dp Dp)
 {
     float T_v2 = (1.f/2.f)*(Dp.m1 + Dp.m2)*carre(Dp.l1)*carre(Dp.phi_1) + (1.f/2.f)*Dp.m2*carre(Dp.l2)*carre(Dp.phi_2) + Dp.m2*Dp.l1*Dp.l2*Dp.phi_1*Dp.phi_2*cos(Dp.theta_1 - Dp.theta_2);
     float V_v2 = -(Dp.m1 + Dp.m2)*Dp.g*Dp.l1*cos(Dp.theta_1) - Dp.m2*Dp.g*Dp.l2*cos(Dp.theta_2);
@@ -129,18 +117,18 @@ double get_energie_pendule(Var_Dp Dp)
 }
 
 
-int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, double (*f)(double, double, double), double (*g)(double, double, double), int (*ODESolver)(const double, double, double *, double *, double (*)(double, double, double)))
+int methode_RK_adaptative_pendulum(double stepSize, double err, Var_Dp *Dp, double (*f)(double, double, double), double (*g)(double, double, double), int (*ODESolver)(const double, double, double *, double *, double (*)(double, double, double)))
 {
-    // sauvegarde_etat_equadiff;
+    // Saving the ODE state
     double dt = stepSize;
-    long pas = 0;
+    long steps = 0;
     Var_Dp DpB = {0};
-    save_state(*Dp, &DpB); // Sauvegarder *Dp dans le buffer pour modifier Dp comme on le souhaite
+    state_save(*Dp, &DpB); // Saving to be able to modify a copy as desired
 
     double startTime = DpB.t;
-    const double EnergieDebut = DpB.e;
+    const double startEnergy = DpB.e;
     
-    double DernierDifEnergie = 10e10;
+    double lastEnergyDif = 10e10;
     double valeur = 10e10;
     int firstTime = 1;
 
@@ -150,39 +138,38 @@ int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, doubl
     {
 	double t = startTime;
 	if (!firstTime) {
-	    restaure_state(Dp, DpB); // restaurer le Dp comme avant
-	    // sauvegarde de toute les donner du Dp
+	    state_restore(Dp, DpB); // Restore the Dp variable as before
 	    dt /= 5;
 	    if (dt < 1e-10) {
-		fprintf(stderr, "pas de temps trop petit\n");
+		fprintf(stderr, "WARNING: Time steps too small\n");
 		return -1;
 	    }
 	}
-	pas = 0;
+	steps = 0;
 
 	while (t < (startTime + stepSize)) {
 	    double h = dt;
 
 	    if ((t + h) > (startTime + stepSize - 1e-10))
 		h = startTime + stepSize - t;
-	    pas++;
+	    steps++;
 	    if (ODESolver(h, t, &Dp->theta_1, &Dp->phi_1, f) < 0) return -1; // New step
 	    if (ODESolver(h, t, &Dp->theta_2, &Dp->phi_2, g) < 0) return -1; // New step
-	    Dp->t = t; // sauvegarde de toute les donner du Dp
+	    Dp->t = t; // Save all the data from the Dp variable
 	    t = t + h;
-	    if (pas > (stepSize/dt + 2)){ 
-	    	fprintf(stderr, "Problème nombre de pas trop grand: %ld, %f\n", pas, stepSize/dt);
+	    if (steps > (stepSize/dt + 2)){ 
+	    	fprintf(stderr, "WARNING: Number of steps too big: %ld, %f\n", steps, stepSize/dt);
 		return -1;
 	    }
 	}
 
-	const double EnergieFinale = get_energie_pendule(*Dp);
-	if (isnan(EnergieFinale)) return -1;
-	const double difEnergie = ABS(EnergieDebut - EnergieFinale);
-	if (!firstTime)
-	    valeur = ABS(difEnergie - DernierDifEnergie);
-	// test code
-	DernierDifEnergie = difEnergie;
+	const double endEnergy = get_pendulum_energy(*Dp);
+	if (isnan(endEnergy)) return -1;
+	
+	const double EnergyDif = ABS(startEnergy - endEnergy);
+	if (!firstTime) valeur = ABS(EnergyDif - lastEnergyDif);
+	
+	lastEnergyDif = EnergyDif;
 	firstTime = 0;
     } while (valeur > err);
     return 0;
@@ -191,7 +178,7 @@ int methode_RK_adaptative_pendule(double stepSize, double err, Var_Dp *Dp, doubl
 
 
 
-Vector2 adaptation_coord_fenetre(Vector2 a)
+Vector2 overflow_protection_window(Vector2 a)
 {
     if ((a.x + WIDTH/2) < 1)
 	a.x = -WIDTH/2 + 1;
@@ -204,42 +191,41 @@ Vector2 adaptation_coord_fenetre(Vector2 a)
     return a;
 }
 
-// void tracage_double_pendule(int i, Double_pendule *Dp, Color cl, Var_Dp VDp)
-void tracage_double_pendule(int i, Double_pendule *Dp, Var_Dp VDp, uint8_t ***cl)
+void Draw_double_pendulum(int i, Double_pendulum *Dp, Var_Dp VDp, uint8_t ***cl)
 {
     draw_clear(cl, WIDTH, HEIGHT);
 
-    // Calcul des nouvelles coordonnées du pendule
+    // Calculations of the new positions in Cartesian coordinates
     Dp->boule_1.x = 100.f*VDp.l1*sin(VDp.theta_1);
     Dp->boule_1.y = -100.f*VDp.l1*cos(VDp.theta_1);
     Dp->boule_2.x = 100.f*VDp.l2*sin(VDp.theta_2) + Dp->boule_1.x;
     Dp->boule_2.y = -100.f*VDp.l2*cos(VDp.theta_2) + Dp->boule_1.y;
 
-    Dp->boule_1 = adaptation_coord_fenetre(Dp->boule_1);
-    Dp->boule_2 = adaptation_coord_fenetre(Dp->boule_2);
+    Dp->boule_1 = overflow_protection_window(Dp->boule_1);
+    Dp->boule_2 = overflow_protection_window(Dp->boule_2);
 
-    // Tige du pendule
+    // First, draw the pendulum rods
     draw_ligne(cl, WIDTH,  HEIGHT, 0, 0, Dp->boule_1.x, -Dp->boule_1.y, 0xFFFFFF00);
     draw_ligne(cl, WIDTH,  HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, Dp->boule_2.x, -Dp->boule_2.y, 0xFFFFFF00);
-
-    // Masse du pedule
-    draw_cercle(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, 5.f*VDp.m1, 0xFF000000);
-    draw_cercle(cl, WIDTH, HEIGHT, Dp->boule_2.x, -Dp->boule_2.y, 5.f*VDp.m2, 0xFF000000);
     
-    // Ligne entre le centre et le bout du pendule
+    // Set the new position of the second mass in the beginning of the buffer
     Dp->buf_traine[0].x = Dp->boule_2.x;
     Dp->buf_traine[0].y = Dp->boule_2.y;
 
-    // Calcul de la trajectoir
+    // Update the new trajectory's drag into the buffer
     for (int j = i-1; j > 0; j--) {
     	Dp->buf_traine[j].x = Dp->buf_traine[j-1].x;
     	Dp->buf_traine[j].y = Dp->buf_traine[j-1].y;
     }
 	
-    // trainé de la trajectoire
+    // Second, draw the trajectory's drag of the second mass of pendulum
     for (int j = 0; j < i-1; j++){
     	draw_ligne(cl, WIDTH, HEIGHT, Dp->buf_traine[j].x, -Dp->buf_traine[j].y, Dp->buf_traine[j+1].x, -Dp->buf_traine[j+1].y, 0x00ff00000);
     }
+    
+    // Third, draw the pendulum's masses
+    draw_cercle(cl, WIDTH, HEIGHT, Dp->boule_1.x, -Dp->boule_1.y, 5.f*VDp.m1, 0xFF000000);
+    draw_cercle(cl, WIDTH, HEIGHT, Dp->boule_2.x, -Dp->boule_2.y, 5.f*VDp.m2, 0xFF000000);
 }
 
 
@@ -259,7 +245,7 @@ int main()
     		      .phi_2    = 0,
     		      .psi_2    = 0,
     };
-    Var_Dp1.e = get_energie_pendule(Var_Dp1);
+    Var_Dp1.e = get_pendulum_energy(Var_Dp1);
 
     VARIABLE_PENDULUM_INIT;
 
@@ -267,20 +253,20 @@ int main()
     double epsilon = 0.001f;
     // float t = 0;
     
-    Double_pendule Dp1;
+    Double_pendulum Dp1;
 
     uint8_t ***color = b24_color_alloc(WIDTH, HEIGHT);
     char filepath_image[IPS*10][40];
 
     for (int i = 0; i < IPS*10; i++)
-	sprintf(filepath_image[i], "stock/Double_pendule_%03d.ppm", i);
+	sprintf(filepath_image[i], "stock/Double_pendulum_%03d.ppm", i);
 
     for (int i = 0; i < IPS*10; i++) {
 
-	if (methode_RK_adaptative_pendule(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, methode_RK4) < 0)
-	    fprintf(stderr, "ERREUR: calcul %s\n", "methode_RK_adaptative_pendule");	
+	if (methode_RK_adaptative_pendulum(dt, epsilon, &Var_Dp1, equ_var1_psi_1, equ_var1_psi_2, methode_RK4) < 0)
+	    fprintf(stderr, "ERROR: Calculation overflow %s\n", "methode_RK_adaptative_pendulum");	
 	
-	tracage_double_pendule(i, &Dp1, Var_Dp1, color);
+	Draw_double_pendulum(i, &Dp1, Var_Dp1, color);
 
 	CreateImagePPM24b(filepath_image[i], color, WIDTH, HEIGHT);
     }

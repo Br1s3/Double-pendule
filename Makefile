@@ -30,9 +30,9 @@ BUILD_DIR 	:= project
 OBJ_DIR 	:= lib
 PICTURE_DIR 	:= stock
 
-PICTURE_DB_PENDULE := Double_pendule_%03d.ppm
-PICTURE_DB_SAMPLE := Double_pendule_000.ppm
-VIDEO_DB_PENDULE := Double_pendule.mp4
+PICTURE_DB_PENDULUM := Double_pendulum_%03d.ppm
+PICTURE_DB_SAMPLE := Double_pendulum_000.ppm
+VIDEO_DB_PENDULUM := Double_pendulum.mp4
 
 FLAGS += 		\
 -Wall -Wextra 		\
@@ -53,7 +53,7 @@ RAY_FLAGS += 	\
 
 
 
-all: $(BUILD_DIR) $(PICTURE_DIR) $(BUILD_DIR)/simple_pendule $(BUILD_DIR)/double_pendule_console $(BUILD_DIR)/double_pendule_video $(BUILD_DIR)/double_pendule
+all: $(BUILD_DIR) $(PICTURE_DIR) $(BUILD_DIR)/simple_pendulum $(BUILD_DIR)/double_pendulum_console $(BUILD_DIR)/double_pendulum_video $(BUILD_DIR)/double_pendulum
 
 
 $(BUILD_DIR):
@@ -62,33 +62,33 @@ $(BUILD_DIR):
 $(PICTURE_DIR):
 	$(MD) $(PICTURE_DIR)
 
-$(BUILD_DIR)/simple_pendule: simple_pendule.c | $(BUILD_DIR)
-	$(CC) simple_pendule.c -o $(BUILD_DIR)/simple_pendule $(FLAGS) $(RAY_FLAGS)
+$(BUILD_DIR)/simple_pendulum: simple_pendulum.c | $(BUILD_DIR)
+	$(CC) simple_pendulum.c -o $(BUILD_DIR)/simple_pendulum $(FLAGS) $(RAY_FLAGS)
 
-$(BUILD_DIR)/double_pendule: double_pendule.c | $(BUILD_DIR)
-	$(CC) double_pendule.c -o $(BUILD_DIR)/double_pendule $(FLAGS) $(RAY_FLAGS)
+$(BUILD_DIR)/double_pendulum: double_pendulum.c | $(BUILD_DIR)
+	$(CC) double_pendulum.c -o $(BUILD_DIR)/double_pendulum $(FLAGS) $(RAY_FLAGS)
 
-$(BUILD_DIR)/double_pendule_console: double_pendule_console.c | $(BUILD_DIR)
-	$(CC) double_pendule_console.c -o $(BUILD_DIR)/double_pendule_console $(FLAGS) -lm
+$(BUILD_DIR)/double_pendulum_console: double_pendulum_console.c | $(BUILD_DIR)
+	$(CC) double_pendulum_console.c -o $(BUILD_DIR)/double_pendulum_console $(FLAGS) -lm
 
-$(BUILD_DIR)/double_pendule_video: double_pendule_video.c | $(BUILD_DIR) $(PICTURE_DIR)
-	$(CC) double_pendule_video.c -o $(BUILD_DIR)/double_pendule_video $(FLAGS) -lm
+$(BUILD_DIR)/double_pendulum_video: double_pendulum_video.c | $(BUILD_DIR) $(PICTURE_DIR)
+	$(CC) double_pendulum_video.c -o $(BUILD_DIR)/double_pendulum_video $(FLAGS) -lm
 
 
 
-play_video: $(PICTURE_DIR)/Double_pendule.mp4
-	mpv $(PICTURE_DIR)/Double_pendule.mp4 --loop-file=yes
+play_video: $(PICTURE_DIR)/Double_pendulum.mp4
+	mpv $(PICTURE_DIR)/Double_pendulum.mp4 --loop-file=yes
 
-create_gif: $(PICTURE_DIR)/Double_pendule.mp4
-	ffmpeg -i $(PICTURE_DIR)/Double_pendule.mp4 -vf "fps=15,scale=500:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" $(PICTURE_DIR)/Double_pendule.gif
+create_gif: $(PICTURE_DIR)/Double_pendulum.mp4
+	ffmpeg -i $(PICTURE_DIR)/Double_pendulum.mp4 -vf "fps=15,scale=500:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" $(PICTURE_DIR)/Double_pendulum.gif
 
-create_video: $(PICTURE_DIR)/Double_pendule.mp4
+create_video: $(PICTURE_DIR)/Double_pendulum.mp4
 
-$(PICTURE_DIR)/Double_pendule.mp4: $(PICTURE_DIR)/$(PICTURE_DB_SAMPLE)
-	ffmpeg -i $(PICTURE_DIR)/$(PICTURE_DB_PENDULE) -r 60 $(PICTURE_DIR)/Double_pendule.mp4
+$(PICTURE_DIR)/Double_pendulum.mp4: $(PICTURE_DIR)/$(PICTURE_DB_SAMPLE)
+	ffmpeg -i $(PICTURE_DIR)/$(PICTURE_DB_PENDULUM) -r 60 $(PICTURE_DIR)/Double_pendulum.mp4
 
-$(PICTURE_DIR)/$(PICTURE_DB_SAMPLE): $(BUILD_DIR)/double_pendule_video
-	./$(BUILD_DIR)/double_pendule_video
+$(PICTURE_DIR)/$(PICTURE_DB_SAMPLE): $(BUILD_DIR)/double_pendulum_video
+	./$(BUILD_DIR)/double_pendulum_video
 
 clean:
 	$(RM) $(PICTURE_DIR)

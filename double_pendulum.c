@@ -324,9 +324,9 @@ int main(int argc, char *argv[])
     double dt = 1.f/(IPS);
 
     double epsilon1 = 0.01f;
-    double epsilon2 = 0.0000000001f;
+    // double epsilon2 = 0.0000000001f;
+    double epsilon2 = 0.001f;
     double t1 = 0;
-    double t2 = 0;
     
     double_pendulum Dp1;
     double_pendulum Dp2;
@@ -346,9 +346,9 @@ int main(int argc, char *argv[])
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
 	// Classic explicit method to compute these 2 equations
-	if (methode_DOPRI45(dt, t2, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
+	if (methode_DOPRI45(dt, t1, epsilon2, &Var_Dp2.theta_1, &Var_Dp2.phi_1, equ_psi_1_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
-	if (methode_DOPRI45(dt, t2, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
+	if (methode_DOPRI45(dt, t1, epsilon2, &Var_Dp2.theta_2, &Var_Dp2.phi_2, equ_psi_2_var2) < 0)
 	    DrawText(tab, WIDTH/2-200, 10, 50, RED);
 
 	if (save == 1) {
@@ -367,7 +367,6 @@ int main(int argc, char *argv[])
 	
 	snprintf(tab, 15, "t = %.2lf", t1);
 	t1 += dt;
-	t2 = t1;
 
 	DrawText(tab, 20, 40, 20, GREEN);
 	DrawFPS(20, 20);
