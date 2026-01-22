@@ -102,13 +102,13 @@ https://makefiletutorial.com/
 [![scheme with labels of the double pendulum](./picture/Reminder.png)](/picture)
 
 
-## First, select the degrees of freedom
+## 1. select the degrees of freedom
 
 ```math
 \theta_1 \text{ and } \theta_2
 ```
 
-## Second, Select the generalized coordinates
+## 2. Select the generalized coordinates
 
 ```math
 \begin{align}
@@ -123,16 +123,48 @@ https://makefiletutorial.com/
 \end{align}
 ```
 
-## Third, Write the kinetic energy
+## 3. Write the kinetic energy
 
 ```math
 \begin{align}
-	T_1 &= \fraq{1}{2} m_1 l_1^2 \theta'_1^2
-	T_2 &= \fraq{1}{2} m_2 (l_1^2 \theta'_1^2 + l_2^2 \theta'_2^2 + 2 l_2 l_1 \theta'_2 \theta'_1 \cos{\theta_1 - \theta_2})
+	T_1 &= \frac{1}{2} m_1 l_1^2 \theta'_1^2\\
+	T_2 &= \frac{1}{2} m_2 (l_1^2 \theta'_1^2 + l_2^2 \theta'_2^2 + 2 l_2 l_1 \theta'_2 \theta'_1 \cos{(\theta_1 - \theta_2)})\\
+	T_t_o_t &= \frac{1}{2} (m_1 + m_2) l_1^2 \theta'_1^2 + \frac{1}{2} l_2^2 m_2 \theta'_2^2 + l_1 l_2 m_2 \theta'_1 \theta'_2 \cos{(\theta_1 - \theta_2)}
 \end{align}
 ```
 
+## 4. Write the potentiel energy
 
+```math
+\begin{align}
+	U_1 &= - m_1 g l_1 \cos{\theta_1}\\
+	U_2 &= - m_2 g (l_1 \cos{\theta_1} + l_2 \cos{\theta_2})\\
+	U_t_o_t &= - g l_1 (m_1 + m_2) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}
+\end{align}
+```
+
+## 5. Write the Lagrange equation
+
+```math
+	L &= T_t_o_t - U_t_o_t\\
+	L &= \left[\frac{1}{2} (m_1 + m_2) l_1^2 \theta'_1^2 + \frac{1}{2} l_2^2 m_2 \theta'_2^2 + l_1 l_2 m_2 \theta'_1 \theta'_2 \cos{(\theta_1 - \theta_2)}\right] - \left[- g l_1 (m_1 + m_2) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}\right]
+```
+
+## 6. Write the final equation
+
+```math
+\begin{align}
+	\frac{d}{dt}\left(\frac{\partial L}{\partial \theta'}\right) - \frac{\partial L}{\partial \theta} &= 0\\
+	\begin{cases}
+		\frac{\partial L}{\partial \theta'_1} = (m_1 + m_2) l_1^2 \theta'_1 + l_1 l_2 m_2 \theta'_2 \cos{(\theta_1 - \theta_2)}\\
+		\frac{\partial L}{\partial \theta'_2} = l_2^2 m_2 \theta'_2 + l_1 l_2 m_2 \theta'_1 \cos{(\theta_1 - \theta_2)}
+	\end{cases}\\
+	\begin{cases}
+		\frac{d}{dt}\left(\frac{\partial L}{\partial \theta'_1} \right) = l_1^2 (m_1 + m_2) \theta''_1 + l_1 l_2 m_2 \left[ \theta''_2 \cos{(\theta_1 - \theta_2)} - (\theta'_1 - \theta'_2) \theta'_2 \sin{(\theta_1 - \theta_2)}\right]\\
+		\frac{d}{dt}\left(\frac{\partial L}{\partial \theta'_2} \right) = l_2^2 m_2 \theta''_2 + l_1 l_2 m_2 \left[ \theta''_1 \cos{(\theta_1 - \theta_2)} - (\theta'_1 - \theta'_2) \theta'_1 \sin{(\theta_1 - \theta_2)}\right]\\
+	\end{cases}\\
+\end{align}
+```
 
 ## Second 
 
