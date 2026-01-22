@@ -97,8 +97,24 @@ https://makefiletutorial.com/
 
 # Writing the double pendulum's equations with Lagrange method
 
+## Reminder of the basics
+
+[![scheme with labels of the double pendulum](./picture/Reminder.png)](/picture)
+
+
 ## First select the degrees of freedom
 
 ```math
-\theta_1 and \theta_2
+\theta_1 
+and 
+\theta_2
 ```
+
+## Second 
+
+## Desmos
+
+_Remind with labels of the double pendulum_
+
+https://www.desmos.com/calculator/tmpy5hscr1
+
