@@ -116,6 +116,8 @@ https://makefiletutorial.com/
 	y_1 &= -l_1\cos{\theta_1}\\
 	x_2 &= l_2\sin{\theta_2} + x_1\\
 	y_2 &= -l_2\cos{\theta_2} + y_1\\
+	x'_1 &= l_1\theta'_1\cos{\theta_1}\\
+	x'_1 &= l_1\theta'_1\sin{\theta_1}\\
 \end{align}
 
 ```
