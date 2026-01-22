@@ -105,9 +105,7 @@ https://makefiletutorial.com/
 ## First select the degrees of freedom
 
 ```math
-\theta_1 
-and 
-\theta_2
+\theta_1&\text{and}\theta_2
 ```
 
 ## Second 
