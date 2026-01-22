@@ -102,10 +102,20 @@ https://makefiletutorial.com/
 [![scheme with labels of the double pendulum](./picture/Reminder.png)](/picture)
 
 
-## First select the degrees of freedom
+_First, select the degrees of freedom_
 
 ```math
 \theta_1 \text{ and } \theta_2
+```
+
+_Second, Select the generalized coordinates_
+
+```math
+x_1 &= l_1\sin{\theta_1}\\
+y_1 &= -l_1\cos{\theta_1}\\
+x_2 &= l_2\sin{\theta_2} + x_1\\
+y_2 &= -l_2\cos{\theta_2} + y_1\\
+
 ```
 
 ## Second 
