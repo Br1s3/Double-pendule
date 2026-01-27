@@ -78,12 +78,16 @@ _Exemple in video in mp4 format_
 
 ## 2. Select the generalized coordinates
 
+<div align="center">
+
 |            Position            |                       Velocity                        |
 |--------------------------------|-------------------------------------------------------|
 | $x_1 = l_1\sin\theta_1$        | $\dot{x}_1 = l_1\dot{\theta}_1\cos\theta_1$           |
 | $y_1 = -l_1\cos\theta_1$       | $\dot{y}_1 = l_1\dot{\theta}_1\sin\theta_1$           |
 | $x_2 = l_2\sin\theta_2 + x_1$  | $\dot{x}_2 = l_2\dot{\theta}_2\cos\theta_2+\dot{x}_1$ |
 | $y_2 = -l_2\cos\theta_2 + y_1$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
+
+</div>
 
 ## 3. Write the kinetic energy
 
@@ -109,8 +113,8 @@ _Exemple in video in mp4 format_
 
 ```math
 \begin{align}
-	L &= T_{tot} - U_{tot}\\
-	L &= \left[\frac{1}{2} \left(m_1 + m_2\right) {l_1}^{2} {\dot{\theta}_1}^2 + \frac{1}{2} {l_2}^{2} m_2 {\dot{\theta}_2}^{2} + l_1 l_2 m_2 {\dot{\theta}_1} {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\right] - \left[- g l_1 \left(m_1 + m_2\right) \cos\theta_1 - g l_2 m_2 \cos\theta_2\right]
+	\mathcal{L} &= T_{tot} - U_{tot}\\
+	\mathcal{L} &= \left[\frac{1}{2} \left(m_1 + m_2\right) {l_1}^{2} {\dot{\theta}_1}^2 + \frac{1}{2} {l_2}^{2} m_2 {\dot{\theta}_2}^{2} + l_1 l_2 m_2 {\dot{\theta}_1} {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\right] - \left[- g l_1 \left(m_1 + m_2\right) \cos\theta_1 - g l_2 m_2 \cos\theta_2\right]
 \end{align}
 ```
 
@@ -119,40 +123,41 @@ _Exemple in video in mp4 format_
 ```math
 \text{Energy conservation:} \quad
 \boxed{
-	\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
+	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
 }
 ```
+
 ```math
 \left\{
 \begin{aligned}
 	\frac{\partial L}{\partial {\dot{\theta}_1}} &= 
 		(m_1 + m_2) {l_1}^{2} {\dot{\theta}_1} + l_1 l_2 m_2 {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\\
-	\frac{\partial L}{\partial {\dot{\theta}_2}} &= 
+	\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} &= 
 		{l_2}^{2} m_2 {\dot{\theta}_2} + l_1 l_2 m_2 {\dot{\theta}_1} \cos(\theta_1 - \theta_2)
 \end{aligned}
 \right.\\
 
 \left\{
 \begin{aligned}
-	\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_1}} \right) &= 
+	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_1}} \right) &= 
 		{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big[ \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big]\\
-	\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_2}} \right) &= 
+	\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial {\dot{\theta}_2}} \right) &= 
 		{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big[ \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big]\\
 \end{aligned}
 \right.\\
 
 \left\{
 \begin{aligned}
-	\frac{\partial L}{\partial {\theta_1}} &= 
+	\frac{\partial \mathcal{L}}{\partial {\theta_1}} &= 
 		- l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) - g l_1 \left(m_1 + m_2\right) \sin\theta_1\\
-	\frac{\partial L}{\partial {\theta_2}} &= 
+	\frac{\partial \mathcal{L}}{\partial {\theta_2}} &= 
 		l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) + g l_2 m_2 \sin\theta_2
 \end{aligned}
 \right.
 ```
 
 ```math
-\text{Final equation:} \quad\\
+\text{Lagrangian: } \quad\\
 \boxed{
 	\left\{
 	\begin{aligned}
@@ -165,7 +170,7 @@ _Exemple in video in mp4 format_
 ## Finaly extract from the equations the acceleration of the double pendulum rods
 
 ```math
-\text{ The goal is to extract } \ddot{\theta}_1 \text{ and } \ddot{\theta}_2 \text{: } \\
+\text{ The goal is to extract } \ddot{\theta}_1 \text{ and } \ddot{\theta}_2 \text{: }
 \begin{bmatrix}
 	a_{11} & a_{12}\\
 	a_{21} & a_{22}
@@ -203,14 +208,11 @@ _Exemple in video in mp4 format_
 	- l_1 m_2 {\dot{\theta}_1}^{2} \sin(\theta_1 - \theta_2) + m_2 g \sin\theta_2\\
 	l_2 m_2 {\dot{\theta}_2}^{2} \sin(\theta_1 - \theta_2) + (m_1 + m_2) g \sin\theta_1
 \end{bmatrix}
-= 0\\
+= 0
 ```
 
 ```math
-\text{The Final equations: }
-```
-
-```math
+\text{The Final Equations: }
 \boxed{
 	\begin{cases}
 		\ddot{\theta}_1 = \frac{(m_1 + m_2) g \sin\theta_1 - l_2 m_2 {\dot{\theta}_2}^{2} \sin(\theta_1 - \theta_2) + l_1 m_2 {\dot{\theta}_1}^{2} \frac{1}{2} \sin(2 \theta_1 - 2 \theta_2) - m_2 g \sin\theta_2 \cos(\theta_1 - \theta_2)}
