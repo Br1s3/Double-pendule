@@ -164,11 +164,11 @@ https://makefiletutorial.com/
 \end{cases}\right}}\\
 \boxed{\left{\begin{cases}
 	\frac{d}{dt}\left(\frac{\partial L}{\partial {\theta'_1}} \right) = {l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \left[ \ddot{\theta}_2 \cos{(\theta_1 - \theta_2)} - ({\theta'_1} - {\theta'_2}) {\theta'_2} \sin{(\theta_1 - \theta_2)}\right]\\
-	\frac{d}{dt}\left(\frac{\partial L}{\partial {\theta'_2}} \right) = {l_2}^{2} m_2 \theta''_2 + l_1 l_2 m_2 \left[ \ddot{\theta}_1 \cos{(\theta_1 - \theta_2)} - ({\theta'_1} - {\theta'_2}) {\theta'_1} \sin{(\theta_1 - \theta_2)}\right]\\
+	\frac{d}{dt}\left(\frac{\partial L}{\partial {\theta'_2}} \right) = {l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \left[ \ddot{\theta}_1 \cos{(\theta_1 - \theta_2)} - ({\theta'_1} - {\theta'_2}) {\theta'_1} \sin{(\theta_1 - \theta_2)}\right]\\
 \end{cases}\right}}\\
 \boxed{\left{\begin{cases}
-	\frac{\partial}{\partial {\theta_1}} = - l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin{\left(\theta_1 - \theta_2\right)} - g l_1 \left(m_1 + m_2\right) \sin{\theta_1}\\
-	\frac{\partial}{\partial {\theta_2}} = l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin{\left(\theta_1 - \theta_2\right)} + g l_2 m_2 \sin{\theta_2}
+	\frac{\partial}{\partial {\theta_1}} = - l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin{(\theta_1 - \theta_2)} - g l_1 \left(m_1 + m_2\right) \sin{\theta_1}\\
+	\frac{\partial}{\partial {\theta_2}} = l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin{(\theta_1 - \theta_2)} + g l_2 m_2 \sin{\theta_2}
 \end{cases}\right}}\\
 \text{Final equation:}\\
 \boxed{\left{\begin{cases}
