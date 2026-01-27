@@ -155,52 +155,40 @@ https://makefiletutorial.com/
 ## 6. Write the final equation
 
 ```math
-\[
-	\text{Energy conservation} \quad
-	\boxed{
-		\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
-	}
-\]
+\text{Energy conservation} \quad
+\boxed{
+\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
+}\\
 
-\[
-	\left\{
-	\begin{aligned}
-		\frac{\partial L}{\partial {\dot{\theta}_1}} &= 
-			(m_1 + m_2) {l_1}^{2} {\dot{\theta}_1} + l_1 l_2 m_2 {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\\
-		\frac{\partial L}{\partial {\dot{\theta}_2}} &= 
-			{l_2}^{2} m_2 {\dot{\theta}_2} + l_1 l_2 m_2 {\dot{\theta}_1} \cos(\theta_1 - \theta_2)
-	\end{aligned}
-	\right.
-\]
+\left\{
+\begin{aligned}
+	\frac{\partial L}{\partial {\dot{\theta}_1}} &= 
+		(m_1 + m_2) {l_1}^{2} {\dot{\theta}_1} + l_1 l_2 m_2 {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\\
+	\frac{\partial L}{\partial {\dot{\theta}_2}} &= 
+		{l_2}^{2} m_2 {\dot{\theta}_2} + l_1 l_2 m_2 {\dot{\theta}_1} \cos(\theta_1 - \theta_2)
+\end{aligned}
+\right.\\
 
-\[
-	\left\{
-	\begin{aligned}
-		\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_1}} \right) &= 
-			{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big[ \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big]\\
-		\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_2}} \right) &= 
-			{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big[ \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big]\\
-	\end{aligned}
-	\right.
-\]
+\left\{
+\begin{aligned}
+	\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_1}} \right) &= 
+		{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big[ \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big]\\
+	\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_2}} \right) &= 
+		{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big[ \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big]\\
+\end{aligned}
+\right.\\
 
-\[
-	\left\{
-	\begin{aligned}
-		\frac{\partial L}{\partial {\theta_1}} &= 
-			- l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) - g l_1 \left(m_1 + m_2\right) \sin\theta_1\\
-		\frac{\partial L}{\partial {\theta_2}} &= 
-			l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) + g l_2 m_2 \sin\theta_2
-	\end{aligned}
-	\right.
-\]
+\left\{
+\begin{aligned}
+	\frac{\partial L}{\partial {\theta_1}} &= 
+		- l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) - g l_1 \left(m_1 + m_2\right) \sin\theta_1\\
+	\frac{\partial L}{\partial {\theta_2}} &= 
+		l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) + g l_2 m_2 \sin\theta_2
+\end{aligned}
+\right.\\
 
+\text{Final equation:}\\
 
-\[
-\text{Final equation:}
-\]
-
-\[
 \boxed{
 	\left\{
 	\begin{aligned}
@@ -209,7 +197,6 @@ https://makefiletutorial.com/
 	\end{aligned}
 	\right.
 }
-\]
 ```
 
 
