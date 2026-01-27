@@ -79,12 +79,12 @@ _Exemple in video in mp4 format_
 ## 2. Select the generalized coordinates
 
 
-|                Position                 |                             Velocity                           |
-|-----------------------------------------|----------------------------------------------------------------|
-| $x_1 &= l_1\sin\theta_1$                | $\dot{x}_1 &= l_1\dot{\theta}_1\cos\theta_1$                   |
-| $y_1 &= -l_1\cos\theta_1$               | $\dot{y}_1 &= l_1\dot{\theta}_1\sin\theta_1$                   |
-| $$x_2 &= l_2\sin\theta_2 + x_1$$          | $$\dot{x}_2 &= l_2\dot{\theta}_2\cos\theta_2+\dot{x}_1$$         |
-| $$y_2 &= -l_2\cos\theta_2 + y_1$$         | $$\dot{y}_2 &= l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$$         |
+|            Position            |                       Velocity                        |
+|--------------------------------|-------------------------------------------------------|
+| $x_1 = l_1\sin\theta_1$        | $\dot{x}_1 = l_1\dot{\theta}_1\cos\theta_1$           |
+| $y_1 = -l_1\cos\theta_1$       | $\dot{y}_1 = l_1\dot{\theta}_1\sin\theta_1$           |
+| $x_2 = l_2\sin\theta_2 + x_1$  | $\dot{x}_2 = l_2\dot{\theta}_2\cos\theta_2+\dot{x}_1$ |
+| $y_2 = -l_2\cos\theta_2 + y_1$ | $\dot{y}_2 = l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1$ |
 
 ```math
 \begin{align}
