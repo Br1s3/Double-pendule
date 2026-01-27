@@ -63,38 +63,6 @@ _Exemple in video in mp4 format_
 [![Double-pendule-video](./picture/Double-pendule-video.gif)](/picture)
 
 
-# References
-
-## source of inspiration
-> Site Simulatant un double pendule ultra réaliste
-https://www.myphysicslab.com/pendulum/double-pendulum-en.html
-(Formule dispo en bas de page)
-
-> Code du site
-https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/AdaptiveStepSolver.ts
-
-## Aide pour l'établissement des équations
-> Résolution théorique: Résoudre les équations différentielles en utilisant la transformée de Laplace
-> [Résolution celon_Laplace_](https://www.mathforengineers.com/french/Laplace-transform/solve-differential-equations-using-Laplace-transform.html)
-
-> simplification trigonométrique
-> [Formule trigo](https://www.mathforu.com/hors-programme/formulaire-de-trigonometrie/)
-
-
-## visualisation de la Série de Fourier
-https://isaacvr.github.io/coding/fourier_transform/
-
-## Equation rugeuse (stiff) qui sont les pires equations pour solveurs explicites
-https://en.wikipedia.org/wiki/Backward_differentiation_formula
-https://en.wikipedia.org/wiki/Stiff_equation
-
-## Programme solveur explicite DOP853
-https://www.unige.ch/~hairer/software.html
-
-## Info pour Makefile
-https://makefiletutorial.com/
-
-
 # Writing the double pendulum's equations with Lagrange method
 
 ## Reminder of the basics
@@ -155,7 +123,7 @@ https://makefiletutorial.com/
 ## 6. Write the final equation
 
 ```math
-\text{Energy conservation} \quad
+\text{Energy conservation:} \quad
 \boxed{
 	\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
 }
@@ -190,8 +158,7 @@ https://makefiletutorial.com/
 ```
 
 ```math
-\text{Final equation:}\\
-
+\text{Final equation:} \quad\\
 \boxed{
 	\left\{
 	\begin{aligned}
@@ -202,12 +169,63 @@ https://makefiletutorial.com/
 }
 ```
 
+# Writing the double pendulum's equations with Euler method
+...
 
-## Second 
+# Comparison between methods
 
-## Desmos
+There are mainly 2 methods presented here and one embed the other. The program embed an adaptative method that adjusts the time step to obtain a constant total energy of the double pendulum because the equations assume that the system is perfect and has no energy losses. The DOPRI45 method is also an adaptative method that adjusts the time step to obtain a constant error between each solution of the equations of "DOPRI4" and "DOPRI5". 
+It is possible to combine these both methods to obtain the best simulation of a non-existent system (Because here the system is perfect)
 
-_Remind with labels of the double pendulum_
+_Energy conservation_
 
-https://www.desmos.com/calculator/tmpy5hscr1
+[![Comparison between Adaptative method and explicit method](./picture/Energy-conservation.png)](/picture)
 
+
+# References
+
+## Desmos exemples
+_scheme with labels of the double pendulum_
+> https://www.desmos.com/calculator/tmpy5hscr1
+_Comparison between Adaptative method and explicit method_
+> https://www.desmos.com/calculator/day7yp1mrq
+
+
+## source of inspiration
+> The most realistic simulation of a double pendulum
+https://www.myphysicslab.com/pendulum/double-pendulum-en.html
+(Formula available at the bottom of the page)
+
+> Code of the website
+https://github.com/myphysicslab/myphysicslab/blob/master/src/lab/model/AdaptiveStepSolver.ts
+
+## Help for theoritical calculation
+> Theoritical help to solve ODE: Using the method of Laplace tranforms
+> [_Laplace_resolution](https://www.mathforengineers.com/french/Laplace-transform/solve-differential-equations-using-Laplace-transform.html)
+
+> Trigonometric simplification
+> [Trigo Formula](https://www.mathforu.com/hors-programme/formulaire-de-trigonometrie/)
+
+
+## Website allowing to view the Fourier series
+> https://isaacvr.github.io/coding/fourier_transform/
+
+## Worst equation for explicit ODE solvers -> Stiff Equation
+> https://en.wikipedia.org/wiki/Backward_differentiation_formula
+> https://en.wikipedia.org/wiki/Stiff_equation
+
+## Best explicit ODE solver used by NASA (DOP853)
+> https://www.unige.ch/~hairer/software.html
+
+## Help for the Makefile
+> https://makefiletutorial.com/
+
+## Info about LaTeX
+> https://en.wikibooks.org/wiki/LaTeX/Mathematics
+
+## Website that render Latex
+> https://quicklatex.com/
+
+## Help to render things in Markdown
+> https://github.com/Snailedlt/Markdown-Videos/blob/main/README.md
+> https://github.com/sigma-py/ndim/blob/main/README.md
