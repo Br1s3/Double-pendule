@@ -112,14 +112,14 @@ https://makefiletutorial.com/
 
 ```math
 \begin{align}
-	x_1 &= l_1\sin{\theta_1}\\
-	y_1 &= -l_1\cos{\theta_1} \\
-	x_2 &= l_2\sin{\theta_2} + x_1\\
-	y_2 &= -l_2\cos{\theta_2} + y_1 \\
-	\dot{x}_1 &= l_1\dot{\theta}_1\cos{\theta_1}\\
-	\dot{y}_1 &= l_1\dot{\theta}_1\sin{\theta_1} \\
-	\dot{x}_2 &= l_2\dot{\theta}_2\cos{\theta_2}+\dot{x}_1\\
-	\dot{y}_2 &= l_2\dot{\theta}_2\sin{\theta_2}+\dot{x}_1
+	x_1 &= l_1\sin\theta_1\\
+	y_1 &= -l_1\cos\theta_1\\
+	x_2 &= l_2\sin\theta_2 + x_1\\
+	y_2 &= -l_2\cos\theta_2 + y_1\\
+	\dot{x}_1 &= l_1\dot{\theta}_1\cos\theta_1\\
+	\dot{y}_1 &= l_1\dot{\theta}_1\sin\theta_1\\
+	\dot{x}_2 &= l_2\dot{\theta}_2\cos\theta_2+\dot{x}_1\\
+	\dot{y}_2 &= l_2\dot{\theta}_2\sin\theta_2+\dot{x}_1
 \end{align}
 ```
 
@@ -128,8 +128,8 @@ https://makefiletutorial.com/
 ```math
 \begin{align}
 	T_1 &= \frac{1}{2} m_1 {l_1}^{2} {\dot{\theta}_1}^{2} \\
-	T_2 &= \frac{1}{2} m_2 \left({l_1}^{2} {\dot{\theta}_1}^{2} + l_2^{2} {\dot{\theta}_2}^{2} + 2 l_2 l_1 {\dot{\theta}_2} {\dot{\theta}_1} \cos{(\theta_1 - \theta_2)}\right) \\
-	T_{tot} &= \frac{1}{2} \left(m_1 + m_2\right) {l_1}^{2} {\dot{\theta}_1}^{2} + \frac{1}{2} {l_2}^{2} m_2 {\dot{\theta}_2}^{2} + l_1 l_2 m_2 {\dot{\theta}_1} {\dot{\theta}_2} \cos{(\theta_1 - \theta_2)}
+	T_2 &= \frac{1}{2} m_2 \left({l_1}^{2} {\dot{\theta}_1}^{2} + l_2^{2} {\dot{\theta}_2}^{2} + 2 l_2 l_1 {\dot{\theta}_2} {\dot{\theta}_1} \cos(\theta_1 - \theta_2)\right) \\
+	T_{tot} &= \frac{1}{2} \left(m_1 + m_2\right) {l_1}^{2} {\dot{\theta}_1}^{2} + \frac{1}{2} {l_2}^{2} m_2 {\dot{\theta}_2}^{2} + l_1 l_2 m_2 {\dot{\theta}_1} {\dot{\theta}_2} \cos(\theta_1 - \theta_2)
 \end{align}
 ```
 
@@ -137,9 +137,9 @@ https://makefiletutorial.com/
 
 ```math
 \begin{align}
-	U_1 &= - m_1 g l_1 \cos{\theta_1}\\
-	U_2 &= - m_2 g \left(l_1 \cos{\theta_1} + l_2 \cos{\theta_2}\right)\\
-	U_{tot} &= - g l_1 \left(m_1 + m_2\right) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}
+	U_1 &= - m_1 g l_1 \cos\theta_1\\
+	U_2 &= - m_2 g \left(l_1 \cos\theta_1 + l_2 \cos\theta_2\right)\\
+	U_{tot} &= - g l_1 \left(m_1 + m_2\right) \cos\theta_1 - g l_2 m_2 \cos\theta_2
 \end{align}
 ```
 
@@ -148,49 +148,68 @@ https://makefiletutorial.com/
 ```math
 \begin{align}
 	L &= T_{tot} - U_{tot}\\
-	L &= \left[\frac{1}{2} (m_1 + m_2) {l_1}^{2} {\dot{\theta}_1}^2 + \frac{1}{2} {l_2}^{2} m_2 {\dot{\theta}_2}^{2} + l_1 l_2 m_2 {\dot{\theta}_1} {\dot{\theta}_2} \cos{(\theta_1 - \theta_2)}\right] - \left[- g l_1 (m_1 + m_2) \cos{\theta_1} - g l_2 m_2 \cos{\theta_2}\right]
+	L &= \left[\frac{1}{2} \left(m_1 + m_2\right) {l_1}^{2} {\dot{\theta}_1}^2 + \frac{1}{2} {l_2}^{2} m_2 {\dot{\theta}_2}^{2} + l_1 l_2 m_2 {\dot{\theta}_1} {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\right] - \left[- g l_1 \left(m_1 + m_2\right) \cos\theta_1 - g l_2 m_2 \cos\theta_2\right]
 \end{align}
 ```
 
 ## 6. Write the final equation
 
 ```math
-\begin{align}
-	\text{Energy conservation} \quad \boxed{\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0}
-\end{align}
+\[
+	\text{Energy conservation} \quad
+	\boxed{
+		\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{\theta}}\right) - \frac{\partial L}{\partial \theta} = 0
+	}
+\]
+
 \[
 	\left\{
 	\begin{aligned}
-		\frac{\partial L}{\partial {\dot{\theta}_1}} = (m_1 + m_2) {l_1}^{2} {\dot{\theta}_1} + l_1 l_2 m_2 {\dot{\theta}_2} \cos{(\theta_1 - \theta_2)}\\
-		\frac{\partial L}{\partial {\dot{\theta}_2}} = {l_2}^{2} m_2 {\dot{\theta}_2} + l_1 l_2 m_2 {\dot{\theta}_1} \cos{(\theta_1 - \theta_2)}
+		\frac{\partial L}{\partial {\dot{\theta}_1}} &= 
+			(m_1 + m_2) {l_1}^{2} {\dot{\theta}_1} + l_1 l_2 m_2 {\dot{\theta}_2} \cos(\theta_1 - \theta_2)\\
+		\frac{\partial L}{\partial {\dot{\theta}_2}} &= 
+			{l_2}^{2} m_2 {\dot{\theta}_2} + l_1 l_2 m_2 {\dot{\theta}_1} \cos(\theta_1 - \theta_2)
 	\end{aligned}
 	\right.
 \]
+
 \[
 	\left\{
 	\begin{aligned}
-		\frac{d}{dt}\left(\frac{\partial L}{\partial {\theta'_1}} \right) &= {l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \left[ \ddot{\theta}_2 \cos{(\theta_1 - \theta_2)} - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin{(\theta_1 - \theta_2)}\right]\\
-		\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_2}} \right) &= {l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \left[ \ddot{\theta}_1 \cos{(\theta_1 - \theta_2)} - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin{(\theta_1 - \theta_2)}\right]\\
+		\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_1}} \right) &= 
+			{l_1}^{2} (m_1 + m_2) \ddot{\theta}_1 + l_1 l_2 m_2 \Big[ \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_2} \sin(\theta_1 - \theta_2)\Big]\\
+		\frac{d}{dt}\left(\frac{\partial L}{\partial {\dot{\theta}_2}} \right) &= 
+			{l_2}^{2} m_2 \ddot{\theta}_2 + l_1 l_2 m_2 \Big[ \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - ({\dot{\theta}_1} - {\dot{\theta}_2}) {\dot{\theta}_1} \sin(\theta_1 - \theta_2)\Big]\\
 	\end{aligned}
 	\right.
 \]
+
 \[
 	\left\{
 	\begin{aligned}
-		\frac{\partial}{\partial {\theta_1}} &= - l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin{(\theta_1 - \theta_2)} - g l_1 \left(m_1 + m_2\right) \sin{\theta_1}\\
-		\frac{\partial}{\partial {\theta_2}} &= l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin{(\theta_1 - \theta_2)} + g l_2 m_2 \sin{\theta_2}
+		\frac{\partial L}{\partial {\theta_1}} &= 
+			- l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) - g l_1 \left(m_1 + m_2\right) \sin\theta_1\\
+		\frac{\partial L}{\partial {\theta_2}} &= 
+			l_1 l_2 m_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) + g l_2 m_2 \sin\theta_2
 	\end{aligned}
 	\right.
 \]
-\text{Final equation:}\\
+
+
+\[
+\text{Final equation:}
+\]
+
+\[
 \boxed{
 	\left\{
 	\begin{aligned}
-		l_1 \left(m_1 + m_2\right) \ddot{\theta}_1 + l_2 m_2 \ddot{\theta}_2 \cos{(\theta_1 - \theta_2)} + l_2 m_2 {\dot{\theta}_2}^{2} \sin{(\theta_1 - \theta_2)} + g l_1 \left(m_1 + m_2\right) \sin{\theta_1} &= 0\\
-		l_2 m_2 \ddot{\theta_2} + l_1 m_2 \ddot{\theta}_1 \cos{\left(\theta_1 - \theta_2\right)} - l_1 m_2 {\dot{\theta}_1}^{2} + g l_2 m_2 \sin{\theta_2} &= 0
+		l_1 \left(m_1 + m_2\right) \ddot{\theta}_1 &+ l_2 m_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) + l_2 m_2 {\dot{\theta}_2}^{2} \sin(\theta_1 - \theta_2) + g l_1 \left(m_1 + m_2\right) \sin\theta_1 = 0\\
+		l_2 m_2 \ddot{\theta_2} &+ l_1 m_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - l_1 m_2 {\dot{\theta}_1}^{2} + g l_2 m_2 \sin\theta_2 = 0
 	\end{aligned}
 	\right.
 }
+\]
 ```
 
 
